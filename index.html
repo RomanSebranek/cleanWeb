@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreyCorbel Landing Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <a href="index.html"><img src="images/logo.png" alt="Logo"></a>
+        </div>
+        <ul>
+            <li class="dropdown">
+                <a href="products.html">Products</a>
+                <div class="dropdown-content">
+                    <a href="products.html"><img src="images/key.png" alt="AdmPwd.E"> AdmPwd.E</a>
+                    <a href="products.html"><img src="images/list.png" alt="MAAc"> Manage-Automation Account</a>
+                    <a href="products.html"><img src="images/migration.png" alt="MF"> Migration Framework</a>
+                    <a href="products.html"><img src="images/bulb.png" alt="CosmosDB"> Cosmos DB highliter</a>
+                </div>
+            </li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="whyGreyCorbel.html">Why GreyCorbel?</a></li>
+            <li class="language-switcher">
+                <a href="#" id="lang-en">EN</a> | <a href="#" id="lang-cz">CZ</a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div id="content">
+        <div id="container">
+            <div id="animatedText"></div>
+            <div class="blink"></div>
+        </div>
+        <div id="container2">
+            <div id="animatedText2"></div>
+            <div id="cursor2" class="blink"></div>
+        </div>
+    </div>
+    <div id="arrow">↓</div> <!-- Pulzující šipka -->
+    <div id="products" class="content-section">
+        <h1>Products</h1>
+        <p>Lorem ipsum (zkráceně lipsum) je označení pro standardní pseudolatinský text užívaný v grafickém designu a navrhování jako demonstrativní výplňový text při vytváření pracovních ukázek grafických návrhů (např. internetových stránek, rozvržení časopisů či všech druhů reklamních materiálů).</p>
+        <!-- <button onclick="scrollToNextSection('content3')">GET MORE</button> -->
+        <a href="products.html"><button>GET MORE</button></a>
+    </div>
+    <div id="services" class="content-section">
+        <h1>Services</h1>
+        <p>Lorem ipsum (zkráceně lipsum) je označení pro standardní pseudolatinský text užívaný v grafickém designu a navrhování jako demonstrativní výplňový text při vytváření pracovních ukázek grafických návrhů (např. internetových stránek, rozvržení časopisů či všech druhů reklamních materiálů).</p>
+        <!-- <button onclick="scrollToNextSection('content4')">GET MORE</button> -->
+        <a href="services.html"><button>GET MORE</button></a>
+    </div>
+    <div id="whyGreyCorbel" class="content-section">
+        <h1>Why GreyCorbel?</h1>
+        <p>Lorem ipsum (zkráceně lipsum) je označení pro standardní pseudolatinský text užívaný v grafickém designu a navrhování jako demonstrativní výplňový text při vytváření pracovních ukázek grafických návrhů (např. internetových stránek, rozvržení časopisů či všech druhů reklamních materiálů).</p>
+        <!-- <button onclick="scrollToNextSection('footer')">GET MORE</button> -->
+        <a href="whyGreyCorbel.html"><button>GET MORE</button></a>
+    </div>
+    <footer id="footer">
+        <p>Contact: info@greycorbel.com</p>
+        <p>Phone: +420 123 456 789</p>
+        <p>Address: Vyskočilova 1481/4, 140 00 Praha 4, Česká republika</p>
+    </footer>
+    <script>
+        const text1 = "GreyCorbel";
+        const texts2 = ["Trustworthy. Powerful. Secure.", "We can program even your wildest dreams!", "We do always have plan B.", "We never fail!", "We start where others have long since left off..."];
+        const texts2CZ = ["Důvěryhodný. Výkonný. Bezpečný.", "Můžeme naprogramovat i vaše nejdivočejší sny!", "Vždy máme plán B.", "Nikdy neselžeme!", "Začínáme tam, kde jiní už dávno skončili..."];
+        const speed = 85; // rychlost psaní v milisekundách
+        const pauseBetweenTexts = 2000; // pauza mezi texty v milisekundách
+        let index1 = 0;
+        let index2 = 0;
+        let currentTextIndex = 0;
+        let isCzech = false;
+
+        function typeWriter1() {
+            if (index1 < text1.length) {
+                document.getElementById("animatedText").innerHTML += text1.charAt(index1);
+                index1++;
+                setTimeout(typeWriter1, speed);
+            } else {
+                document.querySelector('.blink').style.display = 'none'; // Skrytí kurzoru po dopsání textu
+                document.getElementById("cursor2").style.display = 'inline'; // Zobrazení kurzoru pro druhý text
+                setTimeout(typeWriter2, speed); // Spustit psaní druhého textu
+            }
+        }
+
+        function typeWriter2() {
+            const text2 = isCzech ? texts2CZ[currentTextIndex] : texts2[currentTextIndex];
+            if (index2 < text2.length) {
+                document.getElementById("animatedText2").innerHTML += text2.charAt(index2);
+                index2++;
+                setTimeout(typeWriter2, speed);
+            } else {
+                setTimeout(() => {
+                    document.getElementById("animatedText2").innerHTML = "";
+                    index2 = 0;
+                    currentTextIndex = (currentTextIndex + 1) % (isCzech ? texts2CZ : texts2).length;
+                    typeWriter2();
+                }, pauseBetweenTexts);
+            }
+        }
+
+        // Language switcher event listeners
+        document.getElementById('lang-en').addEventListener('click', () => {
+            isCzech = false;
+            resetText();
+        });
+
+        document.getElementById('lang-cz').addEventListener('click', () => {
+            isCzech = true;
+            resetText();
+        });
+
+        function resetText() {
+            index1 = 0;
+            index2 = 0;
+            currentTextIndex = 0;
+            document.getElementById("animatedText").innerHTML = "";
+            document.getElementById("animatedText2").innerHTML = "";
+            document.querySelector('.blink').style.display = 'inline-block';
+            document.getElementById("cursor2").style.display = 'none';
+            typeWriter1();
+        }
+
+        // Spustit funkci po načtení stránky
+        window.onload = typeWriter1;
+
+        // Funkce pro posun na další obrazovku
+        document.getElementById('arrow').addEventListener('click', () => {
+            document.getElementById('content2').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        window.addEventListener('scroll', () => {
+            const arrow = document.getElementById('arrow');
+            if (window.scrollY > 50) {
+                arrow.style.display = 'none';
+            } else {
+                arrow.style.display = 'block';
+            }
+        });
+
+        // funkce, která posune orazovku na konkrétní kotvu
+        function scrollToNextSection(nextSectionId) {
+            document.getElementById(nextSectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
